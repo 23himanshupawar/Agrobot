@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroBot Portfolio</title>
+
+<style>
+body {margin:0;font-family:Arial;background:#f4f4f4;}
+header {background:#2e7d32;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center;}
+.logo {font-size:20px;font-weight:bold;}
+.menu-icon {font-size:26px;cursor:pointer;}
+.sidebar {position:fixed;top:0;left:-260px;width:250px;height:100%;background:#1b5e20;padding-top:20px;transition:0.3s;z-index:1000;}
+.sidebar.active {left:0;}
+.sidebar a {display:block;color:white;padding:12px 20px;text-decoration:none;}
+.sidebar a:hover {background:#388e3c;}
+.overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;}
+.overlay.active {display:block;}
+.container {padding:20px;}
+section {display:none;background:white;margin:20px 0;padding:20px;border-radius:10px;}
+img {width:100%;border-radius:10px;margin-top:10px;}
+.search-box {width:85%;margin:10px;padding:10px;border:none;border-radius:5px;}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  <div class="logo">AgroBot</div>
+</header>
+
+<div id="sidebar" class="sidebar">
+  <input type="text" class="search-box" placeholder="Search..." onkeyup="searchSections(this.value)">
+  <a href="#" onclick="showSection('home'); return false;">Home</a>
+  <a href="#" onclick="showSection('intro'); return false;">Introduction</a>
+  <a href="#" onclick="showSection('related'); return false;">Related Work</a>
+  <a href="#" onclick="showSection('method'); return false;">Methodology</a>
+  <a href="#" onclick="showSection('results'); return false;">Results</a>
+  <a href="#" onclick="showSection('outcome'); return false;">Outcome</a>
+  <a href="#" onclick="showSection('conclusion'); return false;">Conclusion</a>
+  <a href="#" onclick="showSection('future'); return false;">Future Scope</a>
+  <a href="#" onclick="showSection('achievements'); return false;">Achievements</a>
+  <a href="#" onclick="showSection('about'); return false;">About</a>
+  <a href="#" onclick="showSection('contact'); return false;">Contact</a>
+</div>
+
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<div class="container">
+
+<section id="home" style="display:block">
+<h2>Home</h2>
+<img src="agroSym.jpg" alt="AgroBot Logo" style="max-width:200px; display:block; margin:auto;">
+<h3 style="text-align:center;">Smart Autonomous AI Integrated Agricultural Robot (AgroBot)</h3>
+<p>AgroBot is an advanced agricultural automation system that integrates Artificial Intelligence (AI) and Internet of Things (IoT) technologies to improve productivity and efficiency in farming. It is designed to assist farmers in monitoring crop conditions, detecting diseases, and automating repetitive tasks.</p>
+<p>The system uses sensors and cameras to collect real-time data from the field. This data is analyzed using intelligent algorithms to provide insights and recommendations for better crop management. AgroBot helps in reducing labor dependency and supports precision agriculture.</p>
+<ul>
+<li>AI-based crop disease detection</li>
+<li>Real-time monitoring using sensors</li>
+<li>Automation of agricultural processes</li>
+<li>Improved efficiency and reduced cost</li>
+</ul>
+<p style="text-align:center;"><b>Click ☰ to explore the project</b></p>
+</section>
+
+<section id="intro">
+<h2>Introduction</h2>
+<p>Agriculture is a crucial sector that supports global food production and economic stability. However, traditional farming methods rely heavily on manual labor, making processes time-consuming, less efficient, and prone to human error. Farmers often struggle with unpredictable weather conditions, lack of real-time data, and delayed decision-making, which directly impacts crop yield and quality.</p>
+<p>With advancements in technology, the integration of Artificial Intelligence (AI) and Internet of Things (IoT) has created new opportunities for smart farming. AgroBot is designed to bridge this gap by providing an intelligent, automated system that assists farmers in monitoring and managing crops effectively. It uses sensors and cameras to gather real-time data and applies AI algorithms to analyze it.</p>
+<p>This approach not only improves efficiency but also enables farmers to take timely and informed decisions, leading to better productivity and sustainable agricultural practices.</p>
+</section>
+
+<section id="related">
+<h2>Related Work</h2>
+<p>In recent years, various agricultural automation systems have been developed to address challenges in farming. Many of these systems focus on irrigation control, soil moisture monitoring, and environmental sensing. Technologies such as drip irrigation automation and sensor-based monitoring systems have improved water usage and reduced wastage.</p>
+<p>However, most existing solutions lack advanced intelligence and automation capabilities. They primarily provide raw data without meaningful insights, leaving farmers to interpret the information manually. Additionally, many systems do not integrate robotics, limiting their ability to perform physical tasks in the field.</p>
+<p>AgroBot enhances these existing solutions by combining AI, IoT, and robotics into a single system. It not only collects and analyzes data but also takes action based on the analysis, making it a more comprehensive and efficient solution for modern agriculture.</p>
+</section>
+
+<section id="method">
+<h2>Methodology</h2>
+<p>The development of AgroBot follows a systematic and structured approach to ensure efficiency and reliability. The first step involves requirement analysis, where the challenges faced by farmers are identified and studied in detail. This helps in defining the system objectives and functionality.</p>
+<ul>
+<li><b>Requirement Analysis:</b> Understanding real-world agricultural problems</li>
+<li><b>System Design:</b> Creating hardware and software architecture</li>
+<li><b>AI Model Training:</b> Training machine learning models for disease detection</li>
+<li><b>Hardware Integration:</b> Integrating sensors, controllers, and motors</li>
+<li><b>Testing and Validation:</b> Ensuring system accuracy and performance</li>
+</ul>
+<p>This step-by-step methodology ensures that the system is robust, scalable, and capable of performing effectively under real-world farming conditions.</p>
+</section>
+
+<section id="results">
+<h2>Results and Discussion</h2>
+<p>The AgroBot system successfully demonstrated its ability to monitor agricultural fields in real time and detect crop diseases using AI-based image processing techniques. The sensors accurately collected environmental data such as soil moisture and temperature, which was then processed to generate useful insights.</p>
+<p>The implementation showed that automation significantly reduces manual effort while improving efficiency and accuracy. Farmers can access real-time information and take necessary actions promptly, which helps in preventing crop damage and improving yield.</p>
+<p>Overall, the results validate the effectiveness of integrating AI and IoT in agriculture and highlight the potential of AgroBot as a practical solution for modern farming challenges.</p>
+</section>
+
+<section id="outcome">
+<h2>Outcome</h2>
+<ul>
+<li>Successful automation of multiple agricultural tasks</li>
+<li>Significant reduction in manual labor requirements</li>
+<li>Improved monitoring of crop and soil conditions</li>
+<li>Enhanced decision-making through real-time data</li>
+</ul>
+<p>The AgroBot project achieved its primary objective of developing a smart agricultural system that combines technology with practical farming needs. It demonstrates how modern tools can be effectively used to solve traditional problems in agriculture.</p>
+<p>The system also proves to be cost-effective and scalable, making it suitable for adoption by farmers on a larger scale in the future.</p>
+<img src="outcome.jpg" alt="Outcome Image">
+</section>
+
+<section id="conclusion">
+<h2>Conclusion</h2>
+<p>AgroBot represents a significant advancement in the field of smart agriculture by integrating Artificial Intelligence, Internet of Things, and automation technologies. The system successfully addresses key challenges faced by farmers, such as labor shortages, lack of real-time monitoring, and delayed decision-making.</p>
+<p>By providing accurate data and intelligent analysis, AgroBot enables farmers to improve productivity and reduce costs. The project highlights the importance of adopting modern technologies in agriculture to achieve sustainable and efficient farming practices.</p>
+<p>Overall, AgroBot serves as a practical and innovative solution that has the potential to transform traditional farming into a more advanced and intelligent system.</p>
+</section>
+
+<section id="future">
+<h2>Future Scope</h2>
+<ul>
+<li>Integration of GPS for autonomous navigation</li>
+<li>Development of a cloud-based monitoring dashboard</li>
+<li>Improvement in AI model accuracy and performance</li>
+<li>Implementation of automated irrigation systems</li>
+</ul>
+<p>Future enhancements will focus on making the AgroBot system more intelligent, efficient, and user-friendly. By incorporating advanced technologies such as cloud computing and data analytics, the system can provide deeper insights and better control to farmers.</p>
+<p>These improvements will enable large-scale deployment and contribute to the development of fully automated smart farms in the future.</p>
+</section>
+
+<section id="achievements">
+<h2>Achievements</h2>
+<p>The AgroBot project was successfully presented at the prestigious Avishkar Institute Level Competition, where it secured 2nd Prize among numerous innovative projects. This achievement reflects the originality, technical strength, and practical relevance of the project.</p>
+<p>The recognition received at the competition highlights the potential impact of AgroBot in the field of smart agriculture. It also demonstrates the team's ability to apply theoretical knowledge to solve real-world problems effectively.</p>
+<p>This accomplishment serves as a motivation to further enhance the project and explore new possibilities in agricultural automation and intelligent systems.</p>
+<div style="display:flex; gap:10px; flex-wrap:wrap;">
+  <img src="avishkar.jpg" alt="Achievement 1" style="width:48%;">
+  <img src="avs.jpg" alt="Achievement 2" style="width:48%;">
+</div>
+</section>
+
+<section id="about">
+<h2>About</h2>
+<p>AgroBot is an academic project developed with the aim of addressing real-world agricultural challenges through the application of modern technologies such as Artificial Intelligence and Internet of Things. The project focuses on creating a smart, automated system that assists farmers in improving productivity and efficiency.</p>
+<p>It demonstrates the practical implementation of engineering concepts and highlights the importance of innovation in solving industry problems. The project also reflects the growing trend of integrating technology into traditional sectors like agriculture.</p>
+<p>AgroBot stands as an example of how academic learning can be transformed into impactful real-world solutions.</p>
+</section>
+
+<section id="contact">
+<h2>Contact</h2>
+<p>Email: your@email.com</p>
+<p>If you have any queries or would like to know more about the AgroBot project, feel free to reach out. We welcome suggestions, feedback, and opportunities for collaboration.</p>
+<p>This project aims to contribute to the advancement of smart agriculture, and your input can help improve and expand its capabilities further.</p>
+</section>
+
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
+function showSection(id){
+  let sections = document.querySelectorAll("section");
+  sections.forEach(sec => sec.style.display = "none");
+  document.getElementById(id).style.display = "block";
+  toggleMenu();
+}
+
+function searchSections(input){
+  let sections = document.querySelectorAll("section");
+  input = input.toLowerCase();
+  if(input === ""){
+    sections.forEach(sec => sec.style.display = "none");
+    document.getElementById("home").style.display = "block";
+    return;
+  }
+  sections.forEach(sec => {
+    if(sec.innerText.toLowerCase().includes(input)){
+      sec.style.display = "block";
+    } else {
+      sec.style.display = "none";
+    }
+  });
+}
+
+window.onload = function(){
+  let sections = document.querySelectorAll("section");
+  sections.forEach(sec => sec.style.display = "none");
+  document.getElementById("home").style.display = "block";
+};
+</script>
+
+</body>
+</html>
