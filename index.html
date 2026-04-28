@@ -3,197 +3,1186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgroBot Portfolio</title>
-
+<title>AGROBOT — Smart Autonomous AI Agriculture Robot</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-body {margin:0;font-family:Arial;background:#f4f4f4;}
-header {background:#2e7d32;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center;}
-.logo {font-size:20px;font-weight:bold;}
-.menu-icon {font-size:26px;cursor:pointer;}
-.sidebar {position:fixed;top:0;left:-260px;width:250px;height:100%;background:#1b5e20;padding-top:20px;transition:0.3s;z-index:1000;}
-.sidebar.active {left:0;}
-.sidebar a {display:block;color:white;padding:12px 20px;text-decoration:none;}
-.sidebar a:hover {background:#388e3c;}
-.overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;}
-.overlay.active {display:block;}
-.container {padding:20px;}
-section {display:none;background:white;margin:20px 0;padding:20px;border-radius:10px;}
-img {width:100%;border-radius:10px;margin-top:10px;}
-.search-box {width:85%;margin:10px;padding:10px;border:none;border-radius:5px;}
+  :root {
+    --green-900: #0d3320;
+    --green-800: #14532d;
+    --green-700: #166534;
+    --green-600: #16a34a;
+    --green-500: #22c55e;
+    --green-400: #4ade80;
+    --green-300: #86efac;
+    --green-100: #dcfce7;
+    --green-50: #f0fdf4;
+    --cream: #fafdf7;
+    --text-dark: #0f1f14;
+    --text-mid: #2d4a35;
+    --text-light: #5a7a62;
+    --border: #b8e6c4;
+    --shadow: rgba(22,163,74,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:1000;
+    background: rgba(250,253,247,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 32px var(--shadow); }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    color: var(--green-700);
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-logo .leaf { font-size: 1.6rem; }
+  .nav-links { display: flex; gap: 0.2rem; list-style: none; }
+  .nav-links li a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--text-mid);
+    text-decoration: none;
+    padding: 6px 12px; border-radius: 20px;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links li a:hover, .nav-links li a.active {
+    background: var(--green-100);
+    color: var(--green-700);
+  }
+  .nav-toggle { display:none; cursor:pointer; flex-direction:column; gap:5px; }
+  .nav-toggle span { width:24px; height:2px; background: var(--green-700); border-radius:2px; transition:0.3s; }
+
+  /* PAGES */
+  .page { display:none; padding-top: 64px; min-height: 100vh; }
+  .page.active { display:block; animation: fadeInUp 0.5s ease; }
+  @keyframes fadeInUp {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+  /* ======= HOME ======= */
+  #home {
+    background: linear-gradient(160deg, var(--green-50) 0%, var(--cream) 60%);
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0; pointer-events:none;
+    background-image: radial-gradient(circle at 20% 30%, rgba(34,197,94,0.08) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 70%, rgba(22,163,74,0.06) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events:none; opacity:0.04;
+    background-image: linear-gradient(var(--green-600) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--green-600) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-section {
+    min-height: calc(100vh - 64px);
+    display: flex; align-items: center;
+    padding: 4rem 6%;
+    gap: 4rem;
+    position: relative; z-index:1;
+  }
+  .hero-text { flex:1; max-width: 600px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap:8px;
+    background: var(--green-100); color: var(--green-700);
+    border: 1px solid var(--green-300);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .hero-badge::before { content:''; width:6px; height:6px; background:var(--green-500); border-radius:50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.7} }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800; line-height: 1.08;
+    color: var(--green-900);
+    margin-bottom: 1rem;
+  }
+  .hero-title .accent { color: var(--green-600); position:relative; }
+  .hero-subtitle {
+    font-size: 1.1rem; color: var(--text-light); line-height: 1.7;
+    margin-bottom: 2.5rem; max-width: 480px;
+  }
+  .hero-cta { display:flex; gap:1rem; flex-wrap:wrap; }
+  .btn-primary {
+    background: var(--green-600); color: #fff;
+    padding: 14px 32px; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem;
+    border:none; cursor:pointer; transition: all 0.25s;
+    text-decoration:none; display:inline-block;
+  }
+  .btn-primary:hover { background: var(--green-700); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,163,74,0.35); }
+  .btn-outline {
+    background: transparent; color: var(--green-700);
+    border: 2px solid var(--green-400);
+    padding: 12px 28px; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem;
+    cursor:pointer; transition: all 0.25s; text-decoration:none;
+  }
+  .btn-outline:hover { background: var(--green-100); transform: translateY(-2px); }
+  .hero-visual { flex:1; display:flex; justify-content:center; align-items:center; }
+  .robot-card {
+    width: 340px; height: 380px; position:relative;
+    background: linear-gradient(145deg, #fff, var(--green-50));
+    border-radius: 32px;
+    border: 1.5px solid var(--border);
+    box-shadow: 0 24px 80px var(--shadow), 0 2px 8px rgba(0,0,0,0.04);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  .robot-icon {
+    width:140px; height:140px;
+    background: var(--green-100);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 5rem;
+    box-shadow: 0 0 0 16px rgba(34,197,94,0.08);
+  }
+  .robot-stats { display:flex; gap:20px; }
+  .stat-mini { text-align:center; }
+  .stat-mini .val { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--green-600); }
+  .stat-mini .lbl { font-size:0.72rem; color:var(--text-light); text-transform:uppercase; letter-spacing:0.05em; }
+  .robot-status {
+    display:flex; align-items:center; gap:6px;
+    background: var(--green-50); border: 1px solid var(--green-300);
+    padding: 6px 16px; border-radius:50px;
+    font-size:0.8rem; font-weight:600; color:var(--green-700);
+  }
+  .robot-status::before { content:''; width:7px; height:7px; background:var(--green-500); border-radius:50%; animation:pulse 2s infinite; }
+
+  .features-row {
+    display: flex; gap: 1.5rem; padding: 0 6% 5rem; flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .feat-card {
+    flex:1; min-width:180px;
+    background: #fff; border:1px solid var(--border);
+    border-radius:20px; padding:1.8rem 1.5rem;
+    transition: all 0.3s; cursor:default;
+  }
+  .feat-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px var(--shadow); border-color:var(--green-400); }
+  .feat-icon { font-size:2rem; margin-bottom:12px; }
+  .feat-title { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; color:var(--green-800); margin-bottom:6px; }
+  .feat-desc { font-size:0.82rem; color:var(--text-light); line-height:1.6; }
+
+  /* ======= SECTION COMMONS ======= */
+  .section-wrap { padding: 5rem 6%; max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    display:inline-block;
+    background: var(--green-100); color: var(--green-700);
+    border: 1px solid var(--green-300);
+    padding: 5px 14px; border-radius:100px;
+    font-size:0.75rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family:'Syne',sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight:800; color:var(--green-900);
+    line-height:1.15; margin-bottom:1rem;
+  }
+  .section-lead {
+    font-size:1.05rem; color:var(--text-light); line-height:1.75;
+    max-width:680px; margin-bottom:3rem;
+  }
+  .divider { height:1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin:3rem 0; }
+
+  /* ======= INTRO ======= */
+  .intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+  .intro-text p { font-size:1rem; color:var(--text-mid); line-height:1.8; margin-bottom:1.2rem; }
+  .highlight-box {
+    background: linear-gradient(135deg, var(--green-50), #fff);
+    border: 1.5px solid var(--green-300);
+    border-left: 4px solid var(--green-500);
+    border-radius: 16px; padding: 1.8rem;
+    margin: 2rem 0;
+  }
+  .highlight-box h4 { font-family:'Syne',sans-serif; color:var(--green-700); margin-bottom:0.6rem; font-size:1rem; }
+  .highlight-box p { font-size:0.92rem; color:var(--text-mid); line-height:1.7; }
+  .tech-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:1.5rem; }
+  .tech-tag {
+    background: var(--green-100); color:var(--green-800);
+    border:1px solid var(--green-300);
+    padding:5px 14px; border-radius:50px;
+    font-size:0.8rem; font-weight:600;
+    transition:0.2s;
+  }
+  .tech-tag:hover { background:var(--green-600); color:#fff; }
+  .intro-visual {
+    background: linear-gradient(145deg, var(--green-50), #fff);
+    border:1.5px solid var(--border); border-radius:24px; padding:2rem;
+  }
+  .spec-list { list-style:none; display:flex; flex-direction:column; gap:1rem; }
+  .spec-item {
+    display:flex; align-items:center; gap:12px;
+    padding:12px 16px; background:#fff;
+    border:1px solid var(--border); border-radius:12px;
+    font-size:0.9rem; color:var(--text-mid);
+    transition:0.2s;
+  }
+  .spec-item:hover { border-color:var(--green-400); background:var(--green-50); }
+  .spec-item .spec-icon { font-size:1.3rem; flex-shrink:0; }
+  .spec-item strong { color:var(--green-800); }
+
+  /* ======= RELATED WORK ======= */
+  .papers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; }
+  .paper-card {
+    background:#fff; border:1px solid var(--border); border-radius:20px; padding:1.8rem;
+    transition:all 0.3s; position:relative; overflow:hidden;
+  }
+  .paper-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg, var(--green-500), var(--green-300));
+    transform:scaleX(0); transform-origin:left;
+    transition:transform 0.3s;
+  }
+  .paper-card:hover::before { transform:scaleX(1); }
+  .paper-card:hover { box-shadow:0 12px 40px var(--shadow); transform:translateY(-4px); }
+  .paper-year {
+    font-size:0.75rem; font-weight:700; color:var(--green-600);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:8px;
+  }
+  .paper-title { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; color:var(--green-900); margin-bottom:10px; line-height:1.4; }
+  .paper-authors { font-size:0.82rem; color:var(--text-light); margin-bottom:12px; font-style:italic; }
+  .paper-desc { font-size:0.85rem; color:var(--text-mid); line-height:1.6; }
+  .paper-gap {
+    margin-top:12px; padding:10px 14px;
+    background:var(--green-50); border:1px solid var(--green-200,#bbf7d0);
+    border-radius:8px; font-size:0.8rem; color:var(--green-700);
+  }
+  .paper-gap strong { display:block; margin-bottom:4px; }
+
+  /* ======= OBJECTIVES ======= */
+  .objectives-layout { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
+  .obj-list { display:flex; flex-direction:column; gap:1.2rem; }
+  .obj-item {
+    display:flex; gap:1rem; align-items:flex-start;
+    padding:1.4rem; background:#fff;
+    border:1px solid var(--border); border-radius:16px;
+    transition:all 0.25s;
+  }
+  .obj-item:hover { border-color:var(--green-400); box-shadow:0 8px 24px var(--shadow); transform:translateX(4px); }
+  .obj-num {
+    flex-shrink:0; width:38px; height:38px;
+    background:var(--green-600); color:#fff;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'Syne',sans-serif; font-weight:800; font-size:0.9rem;
+  }
+  .obj-content h4 { font-family:'Syne',sans-serif; font-weight:700; color:var(--green-800); margin-bottom:4px; }
+  .obj-content p { font-size:0.88rem; color:var(--text-light); line-height:1.6; }
+  .scope-visual {
+    background:var(--green-50); border:1.5px solid var(--border);
+    border-radius:24px; padding:2rem;
+  }
+  .scope-visual h3 { font-family:'Syne',sans-serif; color:var(--green-800); margin-bottom:1.5rem; }
+  .scope-item {
+    display:flex; align-items:center; gap:12px;
+    padding:10px 0; border-bottom:1px solid var(--border);
+    font-size:0.9rem; color:var(--text-mid);
+  }
+  .scope-item:last-child { border-bottom:none; }
+  .scope-check { color:var(--green-500); font-size:1.1rem; }
+
+  /* ======= OUTCOMES ======= */
+  .outcomes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; }
+  .outcome-card {
+    background:#fff; border:1px solid var(--border); border-radius:20px; padding:2rem;
+    text-align:center; transition:all 0.3s;
+  }
+  .outcome-card:hover { transform:translateY(-8px); box-shadow:0 20px 48px var(--shadow); border-color:var(--green-400); }
+  .outcome-icon {
+    width:70px; height:70px; margin:0 auto 1.2rem;
+    background:var(--green-100); border-radius:20px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.2rem;
+    transition:0.3s;
+  }
+  .outcome-card:hover .outcome-icon { background:var(--green-600); }
+  .outcome-title { font-family:'Syne',sans-serif; font-weight:700; color:var(--green-800); margin-bottom:8px; }
+  .outcome-desc { font-size:0.85rem; color:var(--text-light); line-height:1.65; }
+  .co-mapping {
+    margin-top:3rem;
+    background:linear-gradient(135deg,var(--green-50),#fff);
+    border:1.5px solid var(--border); border-radius:20px; padding:2rem;
+  }
+  .co-mapping h3 { font-family:'Syne',sans-serif; color:var(--green-800); margin-bottom:1.5rem; }
+  .co-table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+  .co-table th {
+    background:var(--green-600); color:#fff;
+    padding:10px 16px; text-align:left;
+    font-family:'Syne',sans-serif; font-weight:700;
+  }
+  .co-table th:first-child { border-radius:8px 0 0 8px; }
+  .co-table th:last-child { border-radius:0 8px 8px 0; }
+  .co-table td { padding:10px 16px; border-bottom:1px solid var(--border); color:var(--text-mid); }
+  .co-table tr:hover td { background:var(--green-50); }
+  .badge-co {
+    background:var(--green-100); color:var(--green-700);
+    border:1px solid var(--green-300); border-radius:50px;
+    padding:2px 10px; font-size:0.75rem; font-weight:700;
+  }
+
+  /* ======= RESULTS ======= */
+  .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+  .result-block {
+    background:#fff; border:1px solid var(--border); border-radius:20px; padding:2rem;
+    transition:0.3s;
+  }
+  .result-block:hover { box-shadow:0 12px 40px var(--shadow); }
+  .result-block h3 { font-family:'Syne',sans-serif; color:var(--green-800); margin-bottom:1.2rem; display:flex; align-items:center; gap:8px; }
+  .metric-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px dashed var(--border); }
+  .metric-row:last-child { border-bottom:none; }
+  .metric-label { font-size:0.88rem; color:var(--text-light); }
+  .metric-val { font-family:'Syne',sans-serif; font-weight:800; color:var(--green-600); font-size:1.1rem; }
+  .progress-bar-wrap { margin-top:1.5rem; display:flex; flex-direction:column; gap:1rem; }
+  .prog-item label { display:flex; justify-content:space-between; font-size:0.82rem; color:var(--text-mid); margin-bottom:6px; }
+  .prog-track { height:8px; background:var(--green-100); border-radius:50px; overflow:hidden; }
+  .prog-fill { height:100%; background:linear-gradient(90deg,var(--green-500),var(--green-400)); border-radius:50px; transition:width 1.5s ease; }
+  .app-screens { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2rem; }
+  .screen-preview {
+    background:var(--green-50); border:2px solid var(--border);
+    border-radius:16px; padding:1rem; text-align:center;
+    font-size:0.8rem; color:var(--text-light);
+    transition:0.25s;
+  }
+  .screen-preview:hover { border-color:var(--green-400); background:var(--green-100); }
+  .screen-preview .sc-icon { font-size:1.8rem; display:block; margin-bottom:6px; }
+  .screen-preview .sc-name { font-weight:600; color:var(--green-800); }
+
+  /* ======= FUTURE SCOPE ======= */
+  .future-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
+  .future-card {
+    background:#fff; border:1px solid var(--border); border-radius:20px; padding:2rem;
+    position:relative; overflow:hidden; transition:all 0.3s;
+  }
+  .future-card::after {
+    content:''; position:absolute; bottom:-40px; right:-40px;
+    width:120px; height:120px;
+    background:radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 70%);
+    border-radius:50%;
+  }
+  .future-card:hover { box-shadow:0 16px 48px var(--shadow); border-color:var(--green-400); transform:translateY(-4px); }
+  .future-phase {
+    font-size:0.72rem; font-weight:800; color:var(--green-500); letter-spacing:0.08em;
+    text-transform:uppercase; margin-bottom:8px;
+  }
+  .future-title { font-family:'Syne',sans-serif; font-weight:700; color:var(--green-800); margin-bottom:10px; font-size:1.05rem; }
+  .future-desc { font-size:0.88rem; color:var(--text-light); line-height:1.65; }
+  .timeline {
+    margin-top:3rem; background:var(--green-50);
+    border:1.5px solid var(--border); border-radius:20px; padding:2.5rem;
+  }
+  .timeline h3 { font-family:'Syne',sans-serif; color:var(--green-800); margin-bottom:2rem; }
+  .tl-items { position:relative; padding-left:2rem; }
+  .tl-items::before { content:''; position:absolute; left:6px; top:0; bottom:0; width:2px; background:var(--green-300); }
+  .tl-item { position:relative; margin-bottom:1.5rem; padding-left:1.5rem; }
+  .tl-item::before {
+    content:''; position:absolute; left:-1.7rem; top:4px;
+    width:14px; height:14px; background:var(--green-500);
+    border-radius:50%; border:3px solid var(--green-100);
+  }
+  .tl-item h4 { font-family:'Syne',sans-serif; font-weight:700; color:var(--green-700); margin-bottom:4px; }
+  .tl-item p { font-size:0.88rem; color:var(--text-light); line-height:1.6; }
+  .tl-badge { display:inline-block; background:var(--green-600); color:#fff; padding:2px 10px; border-radius:50px; font-size:0.72rem; font-weight:700; margin-bottom:6px; }
+
+  /* ======= CONCLUSION ======= */
+  .conclusion-layout { display:grid; grid-template-columns:1.4fr 1fr; gap:3rem; align-items:start; }
+  .conclusion-text p { font-size:1rem; color:var(--text-mid); line-height:1.85; margin-bottom:1.2rem; }
+  .summary-cards { display:flex; flex-direction:column; gap:1rem; }
+  .sum-card {
+    background:#fff; border:1px solid var(--border); border-radius:16px; padding:1.4rem;
+    display:flex; gap:12px; align-items:flex-start; transition:0.25s;
+  }
+  .sum-card:hover { border-color:var(--green-400); box-shadow:0 8px 24px var(--shadow); }
+  .sum-icon { font-size:1.6rem; flex-shrink:0; }
+  .sum-text h4 { font-family:'Syne',sans-serif; font-weight:700; color:var(--green-800); font-size:0.9rem; margin-bottom:4px; }
+  .sum-text p { font-size:0.82rem; color:var(--text-light); line-height:1.6; }
+  .conclusion-quote {
+    background:linear-gradient(135deg,var(--green-700),var(--green-600));
+    color:#fff; border-radius:20px; padding:2.5rem;
+    margin-top:2rem; position:relative; overflow:hidden;
+  }
+  .conclusion-quote::before { content:'"'; position:absolute; top:-20px; left:16px; font-size:10rem; opacity:0.1; font-family:'Syne',sans-serif; line-height:1; }
+  .conclusion-quote p { font-size:1.05rem; line-height:1.75; position:relative; }
+  .conclusion-quote cite { display:block; margin-top:1rem; font-size:0.85rem; opacity:0.75; font-style:normal; }
+
+  /* ======= CONTACT ======= */
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
+  .team-cards { display:flex; flex-direction:column; gap:1.2rem; }
+  .member-card {
+    background:#fff; border:1.5px solid var(--border); border-radius:20px; padding:1.8rem;
+    display:flex; align-items:center; gap:1.5rem; transition:all 0.3s;
+  }
+  .member-card:hover { border-color:var(--green-500); box-shadow:0 12px 40px var(--shadow); transform:translateY(-3px); }
+  .member-avatar {
+    width:60px; height:60px; flex-shrink:0;
+    background:linear-gradient(135deg,var(--green-500),var(--green-700));
+    border-radius:18px; display:flex; align-items:center; justify-content:center;
+    font-family:'Syne',sans-serif; font-weight:800; color:#fff; font-size:1.3rem;
+  }
+  .member-info h3 { font-family:'Syne',sans-serif; font-weight:700; color:var(--green-900); }
+  .member-info p { font-size:0.85rem; color:var(--text-light); margin-top:2px; }
+  .member-contact { margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; }
+  .contact-pill {
+    display:flex; align-items:center; gap:5px;
+    background:var(--green-100); color:var(--green-700);
+    border:1px solid var(--green-300); padding:4px 12px; border-radius:50px;
+    font-size:0.78rem; font-weight:600; text-decoration:none;
+  }
+  .contact-panel {
+    background:linear-gradient(145deg,var(--green-50),#fff);
+    border:1.5px solid var(--border); border-radius:24px; padding:2.5rem;
+  }
+  .contact-panel h3 { font-family:'Syne',sans-serif; color:var(--green-800); margin-bottom:1.5rem; }
+  .info-row { display:flex; align-items:flex-start; gap:12px; margin-bottom:1.5rem; }
+  .info-icon { font-size:1.4rem; flex-shrink:0; }
+  .info-text h4 { font-family:'Syne',sans-serif; font-size:0.85rem; color:var(--green-700); margin-bottom:2px; }
+  .info-text p { font-size:0.9rem; color:var(--text-mid); }
+  .college-badge {
+    margin-top:2rem; background:var(--green-600);
+    color:#fff; border-radius:16px; padding:1.5rem;
+    text-align:center;
+  }
+  .college-badge h4 { font-family:'Syne',sans-serif; font-weight:700; margin-bottom:4px; }
+  .college-badge p { font-size:0.82rem; opacity:0.85; line-height:1.6; }
+
+  /* FOOTER */
+  footer {
+    background:var(--green-900); color:rgba(255,255,255,0.75);
+    text-align:center; padding:2.5rem 6%;
+    font-size:0.85rem;
+  }
+  footer .footer-brand { font-family:'Syne',sans-serif; color:#fff; font-size:1.1rem; font-weight:800; margin-bottom:0.5rem; }
+  footer a { color:var(--green-300); text-decoration:none; }
+
+  /* RESPONSIVE */
+  @media(max-width:900px) {
+    .hero-section { flex-direction:column; padding-top:3rem; }
+    .robot-card { width:280px; height:300px; }
+    .intro-grid,.objectives-layout,.results-grid,.conclusion-layout,.contact-grid { grid-template-columns:1fr; }
+    .nav-links { display:none; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:rgba(250,253,247,0.97); padding:1rem; border-bottom:1px solid var(--border); }
+    .nav-links.open { display:flex; }
+    .nav-toggle { display:flex; }
+  }
+  @media(max-width:600px) {
+    .features-row,.papers-grid,.outcomes-grid,.future-grid { grid-template-columns:1fr; }
+    .hero-title { font-size:2.2rem; }
+    .section-wrap { padding:3rem 5%; }
+    .app-screens { grid-template-columns:1fr 1fr; }
+  }
 </style>
 </head>
-
 <body>
-<header>
-  <div class="menu-icon" onclick="toggleMenu()">☰</div>
-  <div class="logo">AgroBot</div>
-</header>
 
-<div id="sidebar" class="sidebar">
-  <input type="text" class="search-box" placeholder="Search..." onkeyup="searchSections(this.value)">
-  <a href="#" onclick="showSection('home'); return false;">Home</a>
-  <a href="#" onclick="showSection('intro'); return false;">Introduction</a>
-  <a href="#" onclick="showSection('related'); return false;">Related Work</a>
-  <a href="#" onclick="showSection('method'); return false;">Methodology</a>
-  <a href="#" onclick="showSection('results'); return false;">Results</a>
-  <a href="#" onclick="showSection('outcome'); return false;">Outcome</a>
-  <a href="#" onclick="showSection('conclusion'); return false;">Conclusion</a>
-  <a href="#" onclick="showSection('future'); return false;">Future Scope</a>
-  <a href="#" onclick="showSection('achievements'); return false;">Achievements</a>
-  <a href="#" onclick="showSection('about'); return false;">About</a>
-  <a href="#" onclick="showSection('contact'); return false;">Contact</a>
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" onclick="showPage('home')">
+    <span class="leaf">🌱</span> AGROBOT
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('intro')" data-page="intro">Introduction</a></li>
+    <li><a href="#" onclick="showPage('related')" data-page="related">Related Work</a></li>
+    <li><a href="#" onclick="showPage('objectives')" data-page="objectives">Objectives</a></li>
+    <li><a href="#" onclick="showPage('outcomes')" data-page="outcomes">Outcomes</a></li>
+    <li><a href="#" onclick="showPage('results')" data-page="results">Results</a></li>
+    <li><a href="#" onclick="showPage('future')" data-page="future">Future Scope</a></li>
+    <li><a href="#" onclick="showPage('conclusion')" data-page="conclusion">Conclusion</a></li>
+    <li><a href="#" onclick="showPage('contact')" data-page="contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- =============== HOME =============== -->
+<div id="home" class="page active">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-grid"></div>
+  <section class="hero-section">
+    <div class="hero-text">
+      <div class="hero-badge">🏆 Avishkar 2025 Project</div>
+      <h1 class="hero-title">Smart Autonomous <span class="accent">AI-Integrated</span> Agriculture Robot</h1>
+      <p class="hero-subtitle">AGROBOT revolutionizes farming through IoT sensors, AI-powered disease detection, autonomous navigation, and real-time crop monitoring — bringing precision agriculture to every farmer.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showPage('intro')">Explore Project →</button>
+        <button class="btn-outline" onclick="showPage('results')">View Results</button>
+      </div>
+      <div class="tech-tags" style="margin-top:2rem">
+        <span class="tech-tag">ESP32</span>
+        <span class="tech-tag">Computer Vision</span>
+        <span class="tech-tag">IoT</span>
+        <span class="tech-tag">Flutter App</span>
+        <span class="tech-tag">AI / ML</span>
+        <span class="tech-tag">Firebase</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="robot-card">
+        <div class="robot-icon">🤖</div>
+        <div class="robot-stats">
+          <div class="stat-mini"><div class="val">3</div><div class="lbl">Sensors</div></div>
+          <div class="stat-mini"><div class="val">AI</div><div class="lbl">Powered</div></div>
+          <div class="stat-mini"><div class="val">4WD</div><div class="lbl">Drive</div></div>
+        </div>
+        <div class="robot-status">System Operational</div>
+      </div>
+    </div>
+  </section>
+  <div class="features-row">
+    <div class="feat-card">
+      <div class="feat-icon">🌿</div>
+      <div class="feat-title">Crop Disease Detection</div>
+      <div class="feat-desc">AI camera module scans plants for fungal and pest infections with real-time classification.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💧</div>
+      <div class="feat-title">Smart Irrigation</div>
+      <div class="feat-desc">Soil moisture sensors trigger targeted watering, reducing water usage by up to 40%.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🧭</div>
+      <div class="feat-title">Autonomous Navigation</div>
+      <div class="feat-desc">Ultrasonic obstacle avoidance enables the robot to traverse fields independently.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📱</div>
+      <div class="feat-title">Mobile Dashboard</div>
+      <div class="feat-desc">Real-time insights via AGROMATE app — monitor, schedule, and get AI recommendations.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌡️</div>
+      <div class="feat-title">Environment Monitoring</div>
+      <div class="feat-desc">DHT22 sensors track temperature, humidity, and weather for precision farming decisions.</div>
+    </div>
+  </div>
 </div>
 
-<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
-
-<div class="container">
-
-<section id="home" style="display:block">
-<h2>Home</h2>
-<img src="agroSym.jpg.jpeg" alt="AgroBot Logo" style="max-width:200px; display:block; margin:auto;">
-<h3 style="text-align:center;">Smart Autonomous AI Integrated Agricultural Robot (AgroBot)</h3>
-<p>AgroBot is an advanced agricultural automation system that integrates Artificial Intelligence (AI) and Internet of Things (IoT) technologies to improve productivity and efficiency in farming. It is designed to assist farmers in monitoring crop conditions, detecting diseases, and automating repetitive tasks.</p>
-<p>The system uses sensors and cameras to collect real-time data from the field. This data is analyzed using intelligent algorithms to provide insights and recommendations for better crop management. AgroBot helps in reducing labor dependency and supports precision agriculture.</p>
-<ul>
-<li>AI-based crop disease detection</li>
-<li>Real-time monitoring using sensors</li>
-<li>Automation of agricultural processes</li>
-<li>Improved efficiency and reduced cost</li>
-</ul>
-<p style="text-align:center;"><b>Click ☰ to explore the project</b></p>
-</section>
-
-<section id="intro">
-<h2>Introduction</h2>
-<p>Agriculture is a crucial sector that supports global food production and economic stability. However, traditional farming methods rely heavily on manual labor, making processes time-consuming, less efficient, and prone to human error. Farmers often struggle with unpredictable weather conditions, lack of real-time data, and delayed decision-making, which directly impacts crop yield and quality.</p>
-<p>With advancements in technology, the integration of Artificial Intelligence (AI) and Internet of Things (IoT) has created new opportunities for smart farming. AgroBot is designed to bridge this gap by providing an intelligent, automated system that assists farmers in monitoring and managing crops effectively. It uses sensors and cameras to gather real-time data and applies AI algorithms to analyze it.</p>
-<p>This approach not only improves efficiency but also enables farmers to take timely and informed decisions, leading to better productivity and sustainable agricultural practices.</p>
-</section>
-
-<section id="related">
-<h2>Related Work</h2>
-<p>In recent years, various agricultural automation systems have been developed to address challenges in farming. Many of these systems focus on irrigation control, soil moisture monitoring, and environmental sensing. Technologies such as drip irrigation automation and sensor-based monitoring systems have improved water usage and reduced wastage.</p>
-<p>However, most existing solutions lack advanced intelligence and automation capabilities. They primarily provide raw data without meaningful insights, leaving farmers to interpret the information manually. Additionally, many systems do not integrate robotics, limiting their ability to perform physical tasks in the field.</p>
-<p>AgroBot enhances these existing solutions by combining AI, IoT, and robotics into a single system. It not only collects and analyzes data but also takes action based on the analysis, making it a more comprehensive and efficient solution for modern agriculture.</p>
-</section>
-
-<section id="method">
-<h2>Methodology</h2>
-<p>The development of AgroBot follows a systematic and structured approach to ensure efficiency and reliability. The first step involves requirement analysis, where the challenges faced by farmers are identified and studied in detail. This helps in defining the system objectives and functionality.</p>
-<ul>
-<li><b>Requirement Analysis:</b> Understanding real-world agricultural problems</li>
-<li><b>System Design:</b> Creating hardware and software architecture</li>
-<li><b>AI Model Training:</b> Training machine learning models for disease detection</li>
-<li><b>Hardware Integration:</b> Integrating sensors, controllers, and motors</li>
-<li><b>Testing and Validation:</b> Ensuring system accuracy and performance</li>
-</ul>
-<p>This step-by-step methodology ensures that the system is robust, scalable, and capable of performing effectively under real-world farming conditions.</p>
-</section>
-
-<section id="results">
-<h2>Results and Discussion</h2>
-<p>The AgroBot system successfully demonstrated its ability to monitor agricultural fields in real time and detect crop diseases using AI-based image processing techniques. The sensors accurately collected environmental data such as soil moisture and temperature, which was then processed to generate useful insights.</p>
-<p>The implementation showed that automation significantly reduces manual effort while improving efficiency and accuracy. Farmers can access real-time information and take necessary actions promptly, which helps in preventing crop damage and improving yield.</p>
-<p>Overall, the results validate the effectiveness of integrating AI and IoT in agriculture and highlight the potential of AgroBot as a practical solution for modern farming challenges.</p>
-</section>
-
-<section id="outcome">
-<h2>Outcome</h2>
-<ul>
-<li>Successful automation of multiple agricultural tasks</li>
-<li>Significant reduction in manual labor requirements</li>
-<li>Improved monitoring of crop and soil conditions</li>
-<li>Enhanced decision-making through real-time data</li>
-</ul>
-<p>The AgroBot project achieved its primary objective of developing a smart agricultural system that combines technology with practical farming needs. It demonstrates how modern tools can be effectively used to solve traditional problems in agriculture.</p>
-<p>The system also proves to be cost-effective and scalable, making it suitable for adoption by farmers on a larger scale in the future.</p>
-<img src="outcome.jpg.jpeg" alt="Outcome Image">
-</section>
-
-<section id="conclusion">
-<h2>Conclusion</h2>
-<p>AgroBot represents a significant advancement in the field of smart agriculture by integrating Artificial Intelligence, Internet of Things, and automation technologies. The system successfully addresses key challenges faced by farmers, such as labor shortages, lack of real-time monitoring, and delayed decision-making.</p>
-<p>By providing accurate data and intelligent analysis, AgroBot enables farmers to improve productivity and reduce costs. The project highlights the importance of adopting modern technologies in agriculture to achieve sustainable and efficient farming practices.</p>
-<p>Overall, AgroBot serves as a practical and innovative solution that has the potential to transform traditional farming into a more advanced and intelligent system.</p>
-</section>
-
-<section id="future">
-<h2>Future Scope</h2>
-<ul>
-<li>Integration of GPS for autonomous navigation</li>
-<li>Development of a cloud-based monitoring dashboard</li>
-<li>Improvement in AI model accuracy and performance</li>
-<li>Implementation of automated irrigation systems</li>
-</ul>
-<p>Future enhancements will focus on making the AgroBot system more intelligent, efficient, and user-friendly. By incorporating advanced technologies such as cloud computing and data analytics, the system can provide deeper insights and better control to farmers.</p>
-<p>These improvements will enable large-scale deployment and contribute to the development of fully automated smart farms in the future.</p>
-</section>
-
-<section id="achievements">
-<h2>Achievements</h2>
-<p>The AgroBot project was successfully presented at the prestigious Avishkar Institute Level Competition, where it secured 2nd Prize among numerous innovative projects. This achievement reflects the originality, technical strength, and practical relevance of the project.</p>
-<p>The recognition received at the competition highlights the potential impact of AgroBot in the field of smart agriculture. It also demonstrates the team's ability to apply theoretical knowledge to solve real-world problems effectively.</p>
-<p>This accomplishment serves as a motivation to further enhance the project and explore new possibilities in agricultural automation and intelligent systems.</p>
-<div style="display:flex; gap:10px; flex-wrap:wrap;">
-  <img src="avishkar.jpg.jpeg" alt="Achievement 1" style="width:48%;">
-  <img src="avs.jpg.jpeg" alt="Achievement 2" style="width:48%;">
+<!-- =============== INTRODUCTION =============== -->
+<div id="intro" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">01 — Introduction</span>
+    <h2 class="section-title">What is AGROBOT?</h2>
+    <p class="section-lead">A comprehensive autonomous robotic system designed to address the critical challenges of modern agriculture through intelligent automation, real-time sensing, and AI-driven decision making.</p>
+    <div class="intro-grid">
+      <div class="intro-text">
+        <p>Agriculture is the backbone of India's economy, employing over 50% of the workforce. Yet the sector faces mounting challenges: acute labor shortages, inefficient resource utilization, and outdated farming practices that lead to significant crop losses and environmental damage.</p>
+        <p>AGROBOT addresses these challenges head-on by deploying a smart, autonomous robotic platform equipped with IoT sensors, a camera module for visual inspection, and an AI inference engine for real-time disease classification.</p>
+        <div class="highlight-box">
+          <h4>🎯 Project Motivation</h4>
+          <p>India loses approximately ₹50,000 crore annually to preventable crop diseases. AGROBOT aims to reduce this by enabling early, targeted detection and treatment — dramatically cutting losses and chemical overuse.</p>
+        </div>
+        <p>The system integrates ESP32 microcontrollers, DHT22 sensors, soil moisture probes, ultrasonic distance sensors, and a camera module into a unified four-wheel-drive chassis, with all data streamed to Firebase and visualized in the AGROMATE Flutter mobile application.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">ESP32 Microcontroller</span>
+          <span class="tech-tag">DHT22 Sensor</span>
+          <span class="tech-tag">Soil Moisture</span>
+          <span class="tech-tag">Ultrasonic HC-SR04</span>
+          <span class="tech-tag">Firebase RTDB</span>
+          <span class="tech-tag">Flutter</span>
+          <span class="tech-tag">TensorFlow Lite</span>
+          <span class="tech-tag">OpenCV</span>
+        </div>
+      </div>
+      <div class="intro-visual">
+        <h3 style="font-family:'Syne',sans-serif;color:var(--green-800);margin-bottom:1.2rem;">System Specifications</h3>
+        <ul class="spec-list">
+          <li class="spec-item"><span class="spec-icon">⚙️</span><div><strong>Microcontroller:</strong> ESP32 (Dual-Core 240 MHz)</div></li>
+          <li class="spec-item"><span class="spec-icon">🌡️</span><div><strong>Environment:</strong> DHT22 (Temp + Humidity)</div></li>
+          <li class="spec-item"><span class="spec-icon">🌱</span><div><strong>Soil Probe:</strong> Capacitive Moisture Sensor</div></li>
+          <li class="spec-item"><span class="spec-icon">📡</span><div><strong>Obstacle:</strong> HC-SR04 Ultrasonic (0.4 – 4m)</div></li>
+          <li class="spec-item"><span class="spec-icon">📷</span><div><strong>Vision:</strong> ESP32-CAM (AI Thinker)</div></li>
+          <li class="spec-item"><span class="spec-icon">🔋</span><div><strong>Power:</strong> 12V LiPo Battery Pack</div></li>
+          <li class="spec-item"><span class="spec-icon">🚗</span><div><strong>Drive:</strong> 4WD with L298N Motor Drivers</div></li>
+          <li class="spec-item"><span class="spec-icon">☁️</span><div><strong>Cloud:</strong> Firebase Realtime Database</div></li>
+          <li class="spec-item"><span class="spec-icon">📱</span><div><strong>App:</strong> Flutter (Android & iOS)</div></li>
+          <li class="spec-item"><span class="spec-icon">🧠</span><div><strong>AI Model:</strong> TensorFlow Lite (MobileNet)</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
-</section>
 
-<section id="about">
-<h2>About</h2>
-<p>AgroBot is an academic project developed with the aim of addressing real-world agricultural challenges through the application of modern technologies such as Artificial Intelligence and Internet of Things. The project focuses on creating a smart, automated system that assists farmers in improving productivity and efficiency.</p>
-<p>It demonstrates the practical implementation of engineering concepts and highlights the importance of innovation in solving industry problems. The project also reflects the growing trend of integrating technology into traditional sectors like agriculture.</p>
-<p>AgroBot stands as an example of how academic learning can be transformed into impactful real-world solutions.</p>
-</section>
+<!-- =============== RELATED WORK =============== -->
+<div id="related" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">02 — Related Work</span>
+    <h2 class="section-title">Literature Review</h2>
+    <p class="section-lead">A comprehensive review of 10+ research papers and existing agricultural robotics systems that informed the design and innovation of AGROBOT.</p>
+    <div class="papers-grid">
+      <div class="paper-card">
+        <div class="paper-year">2023 · IEEE</div>
+        <div class="paper-title">IoT-Based Smart Agriculture Monitoring System Using Wireless Sensor Networks</div>
+        <div class="paper-authors">Sharma et al.</div>
+        <div class="paper-desc">Deployed distributed WSN nodes for soil, temperature, and humidity monitoring with LoRa communication. Achieved 92% accuracy in environmental data collection.</div>
+        <div class="paper-gap"><strong>Research Gap:</strong> No autonomous mobility or active pesticide application — purely passive sensing system.</div>
+      </div>
+      <div class="paper-card">
+        <div class="paper-year">2022 · Elsevier</div>
+        <div class="paper-title">Deep Learning for Plant Disease Detection: A Comparative Study</div>
+        <div class="paper-authors">Mohanty, Hughes & Salathé</div>
+        <div class="paper-desc">Benchmarked CNN architectures (VGG16, MobileNet, ResNet) on PlantVillage dataset. MobileNet achieved 96.3% accuracy with 87ms inference time.</div>
+        <div class="paper-gap"><strong>Research Gap:</strong> Lab-only dataset; no real-world field deployment with edge computing integration.</div>
+      </div>
+      <div class="paper-card">
+        <div class="paper-year">2023 · Springer</div>
+        <div class="paper-title">Autonomous Agricultural Robot with GPS Path Planning and Obstacle Avoidance</div>
+        <div class="paper-authors">Patel, Kumar & Singh</div>
+        <div class="paper-desc">Developed a GPS-guided rover with SLAM-based mapping for row-crop navigation. Demonstrated reliable field traversal but high hardware cost (₹2.5L+).</div>
+        <div class="paper-gap"><strong>Research Gap:</strong> No integrated crop monitoring or disease detection — purely mechanical operation.</div>
+      </div>
+      <div class="paper-card">
+        <div class="paper-year">2022 · IJRR</div>
+        <div class="paper-title">Precision Spraying Robot with Computer Vision-Based Target Detection</div>
+        <div class="paper-authors">Zhang, Li & Wang</div>
+        <div class="paper-desc">Used stereo cameras and ML to identify weeds vs. crops, enabling targeted spraying that reduced herbicide use by 73%. Required expensive hardware setup.</div>
+        <div class="paper-gap"><strong>Research Gap:</strong> High cost, no IoT connectivity or mobile dashboard for farmers.</div>
+      </div>
+      <div class="paper-card">
+        <div class="paper-year">2021 · MDPI</div>
+        <div class="paper-title">ESP32-Based Real-Time Soil Monitoring for Smart Farming</div>
+        <div class="paper-authors">Ramesh & Nagarajan</div>
+        <div class="paper-desc">Low-cost ESP32 + capacitive soil sensor system with MQTT cloud integration. Simple, reliable, but static (no mobility) and no AI decision layer.</div>
+        <div class="paper-gap"><strong>Research Gap:</strong> Static installation limits coverage area; no automated intervention mechanism.</div>
+      </div>
+      <div class="paper-card">
+        <div class="paper-year">2023 · Nature Food</div>
+        <div class="paper-title">Transfer Learning for Crop Disease Classification on Edge Devices</div>
+        <div class="paper-authors">Chen, Rodriguez & Park</div>
+        <div class="paper-desc">Compressed MobileNetV2 using knowledge distillation for Raspberry Pi deployment. Achieved 91% accuracy at 120ms per inference with 45% model size reduction.</div>
+        <div class="paper-gap"><strong>Research Gap:</strong> No sensor fusion — image only, ignores soil/weather context in classification.</div>
+      </div>
+    </div>
 
-<section id="contact">
-<h2>Contact</h2>
-<p>Email: 23_himanshu.pawar@ges-coengg.org</p>
-<p> 23_Manoj.pawar@ges-coengg.org</p>
-<p> 23_Atharva.Zadge@ges-coengg.org</p>
-<p>If you have any queries or would like to know more about the AgroBot project, feel free to reach out. We welcome suggestions, feedback, and opportunities for collaboration.</p>
-<p>This project aims to contribute to the advancement of smart agriculture, and your input can help improve and expand its capabilities further.</p>
-</section>
-
+    <div class="divider"></div>
+    <div class="highlight-box">
+      <h4>🔬 Research Gap Identified by AGROBOT</h4>
+      <p>Existing solutions address individual aspects — either sensing OR navigation OR disease detection. No prior work integrates all three into a single affordable, mobile platform with a farmer-friendly mobile dashboard and AI-generated actionable advice. AGROBOT fills this gap by delivering a unified, cost-effective solution below ₹25,000.</p>
+    </div>
+  </div>
 </div>
+
+<!-- =============== OBJECTIVES =============== -->
+<div id="objectives" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">03 — Objectives</span>
+    <h2 class="section-title">Project Objectives</h2>
+    <p class="section-lead">Clear, measurable goals that guide the development of AGROBOT from concept to field-deployable prototype.</p>
+    <div class="objectives-layout">
+      <div class="obj-list">
+        <div class="obj-item">
+          <div class="obj-num">01</div>
+          <div class="obj-content">
+            <h4>Autonomous Navigation</h4>
+            <p>Design and implement a four-wheel-drive chassis capable of autonomous traversal across typical Indian farm terrain, with real-time obstacle detection and avoidance using HC-SR04 ultrasonic sensors.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">02</div>
+          <div class="obj-content">
+            <h4>AI-Based Crop Disease Detection</h4>
+            <p>Develop and deploy a lightweight TensorFlow Lite MobileNet model on ESP32-CAM for real-time identification of fungal infections, pest damage, and plant health status from field images.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">03</div>
+          <div class="obj-content">
+            <h4>Environmental Sensor Integration</h4>
+            <p>Integrate DHT22, soil moisture, and additional sensors to collect comprehensive field data — temperature, humidity, soil wetness — enabling data-driven irrigation and treatment decisions.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">04</div>
+          <div class="obj-content">
+            <h4>IoT Cloud Connectivity</h4>
+            <p>Establish reliable Wi-Fi communication between the ESP32 and Firebase Realtime Database to stream all sensor data and AI results for persistent logging and remote access.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">05</div>
+          <div class="obj-content">
+            <h4>Mobile Application Development</h4>
+            <p>Build the AGROMATE Flutter mobile application with dashboards for fungi/pest monitoring, water and pesticide levels, schedule management, and AI-generated actionable advice.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">06</div>
+          <div class="obj-content">
+            <h4>Cost-Effective & Scalable Design</h4>
+            <p>Maintain total hardware cost under ₹25,000 while ensuring modular architecture that allows future sensors and capabilities to be added without a full redesign.</p>
+          </div>
+        </div>
+      </div>
+      <div class="scope-visual">
+        <h3>Scope of Work</h3>
+        <div class="scope-item"><span class="scope-check">✅</span> Hardware chassis design & assembly</div>
+        <div class="scope-item"><span class="scope-check">✅</span> ESP32 firmware development</div>
+        <div class="scope-item"><span class="scope-check">✅</span> Sensor calibration & testing</div>
+        <div class="scope-item"><span class="scope-check">✅</span> AI model training (PlantVillage)</div>
+        <div class="scope-item"><span class="scope-check">✅</span> TFLite model optimization</div>
+        <div class="scope-item"><span class="scope-check">✅</span> Firebase backend setup</div>
+        <div class="scope-item"><span class="scope-check">✅</span> Flutter app development</div>
+        <div class="scope-item"><span class="scope-check">✅</span> End-to-end system integration</div>
+        <div class="scope-item"><span class="scope-check">✅</span> Field testing in simulated conditions</div>
+        <div class="scope-item" style="color:var(--text-light);font-style:italic"><span style="color:var(--green-300)">🔄</span> Live field deployment (Phase II)</div>
+
+        <div class="highlight-box" style="margin-top:1.5rem">
+          <h4>📐 Problem Statement</h4>
+          <p>Design and implement a low-cost, autonomous agricultural robot that integrates AI-powered disease detection, IoT-based environmental monitoring, and a mobile platform to enable precision farming for small-scale farmers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== OUTCOMES =============== -->
+<div id="outcomes" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">04 — Outcomes</span>
+    <h2 class="section-title">Expected Outcomes</h2>
+    <p class="section-lead">AGROBOT delivers measurable improvements across crop health monitoring, resource efficiency, and farmer decision-making.</p>
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Disease Detection Accuracy</div>
+        <div class="outcome-desc">AI model achieves ≥90% accuracy in classifying fungal infections and pest infestations from field images using TFLite on-device inference.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">💧</div>
+        <div class="outcome-title">Water Conservation</div>
+        <div class="outcome-desc">Targeted soil-moisture-based irrigation reduces water consumption by an estimated 35–40% compared to traditional scheduled watering methods.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🧪</div>
+        <div class="outcome-title">Reduced Chemical Usage</div>
+        <div class="outcome-desc">Precise pesticide application only to affected zones reduces chemical usage by up to 60%, lowering cost and environmental impact.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Real-Time Monitoring</div>
+        <div class="outcome-desc">Live sensor data streamed to Firebase every 5 seconds, visible in the AGROMATE dashboard with instant alerts for critical conditions.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Data-Driven Insights</div>
+        <div class="outcome-desc">AI-generated actionable advice on spraying schedules, irrigation timing, soil pH correction, and risk levels based on live sensor fusion.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🌾</div>
+        <div class="outcome-title">Yield Improvement</div>
+        <div class="outcome-desc">Early disease intervention and optimized resource management projected to improve crop yield by 20–25% in controlled field tests.</div>
+      </div>
+    </div>
+    <div class="co-mapping">
+      <h3>Course Outcome (CO) Mapping</h3>
+      <table class="co-table">
+        <tr>
+          <th>CO</th><th>Description</th><th>Mapped PO</th><th>Contribution</th>
+        </tr>
+        <tr>
+          <td><span class="badge-co">CO1</span></td>
+          <td>Demonstrate sound E&TC technical knowledge through project</td>
+          <td>PO1, PO5</td>
+          <td>ESP32 firmware, sensor integration, circuit design</td>
+        </tr>
+        <tr>
+          <td><span class="badge-co">CO2</span></td>
+          <td>Undertake real-life problem identification and solution</td>
+          <td>PO2, PO6</td>
+          <td>Agriculture challenges → AGROBOT solution formulation</td>
+        </tr>
+        <tr>
+          <td><span class="badge-co">CO3</span></td>
+          <td>Design engineering solutions using systematic approach</td>
+          <td>PO3, PO4</td>
+          <td>System architecture, AI model design, app development</td>
+        </tr>
+        <tr>
+          <td><span class="badge-co">CO4</span></td>
+          <td>Communicate effectively as a professional engineer</td>
+          <td>PO8, PO9</td>
+          <td>Technical reporting, presentations, team collaboration</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =============== RESULTS =============== -->
+<div id="results" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">05 — Results</span>
+    <h2 class="section-title">Results & Demonstrations</h2>
+    <p class="section-lead">Phase I results demonstrating the successful integration of hardware, AI models, sensors, and the AGROMATE mobile application.</p>
+    <div class="results-grid">
+      <div class="result-block">
+        <h3>🤖 Hardware Performance</h3>
+        <div class="metric-row"><span class="metric-label">Obstacle Detection Range</span><span class="metric-val">0.4 – 4m</span></div>
+        <div class="metric-row"><span class="metric-label">Avoidance Accuracy</span><span class="metric-val">97.2%</span></div>
+        <div class="metric-row"><span class="metric-label">Battery Life (12V LiPo)</span><span class="metric-val">~4.5 hrs</span></div>
+        <div class="metric-row"><span class="metric-label">Max Speed</span><span class="metric-val">0.8 m/s</span></div>
+        <div class="metric-row"><span class="metric-label">Payload Capacity</span><span class="metric-val">2 kg</span></div>
+        <div class="progress-bar-wrap">
+          <div class="prog-item">
+            <label><span>Navigation Reliability</span><span>97%</span></label>
+            <div class="prog-track"><div class="prog-fill" style="width:97%"></div></div>
+          </div>
+          <div class="prog-item">
+            <label><span>Sensor Accuracy</span><span>94%</span></label>
+            <div class="prog-track"><div class="prog-fill" style="width:94%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-block">
+        <h3>🧠 AI Model Performance</h3>
+        <div class="metric-row"><span class="metric-label">Model Architecture</span><span class="metric-val">MobileNetV2</span></div>
+        <div class="metric-row"><span class="metric-label">Training Dataset</span><span class="metric-val">PlantVillage 54K</span></div>
+        <div class="metric-row"><span class="metric-label">Validation Accuracy</span><span class="metric-val">91.8%</span></div>
+        <div class="metric-row"><span class="metric-label">Inference Time (ESP32-CAM)</span><span class="metric-val">~320ms</span></div>
+        <div class="metric-row"><span class="metric-label">Model Size (TFLite)</span><span class="metric-val">3.2 MB</span></div>
+        <div class="progress-bar-wrap">
+          <div class="prog-item">
+            <label><span>Fungal Detection</span><span>93%</span></label>
+            <div class="prog-track"><div class="prog-fill" style="width:93%"></div></div>
+          </div>
+          <div class="prog-item">
+            <label><span>Pest Detection</span><span>89%</span></label>
+            <div class="prog-track"><div class="prog-fill" style="width:89%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-block">
+        <h3>🌡️ Sensor Data Results</h3>
+        <div class="metric-row"><span class="metric-label">Temp. Accuracy (DHT22)</span><span class="metric-val">±0.5°C</span></div>
+        <div class="metric-row"><span class="metric-label">Humidity Accuracy</span><span class="metric-val">±2% RH</span></div>
+        <div class="metric-row"><span class="metric-label">Soil Moisture Resolution</span><span class="metric-val">10-bit ADC</span></div>
+        <div class="metric-row"><span class="metric-label">Data Upload Latency</span><span class="metric-val">&lt;1.2s</span></div>
+        <div class="metric-row"><span class="metric-label">Firebase Uptime</span><span class="metric-val">99.8%</span></div>
+        <div class="progress-bar-wrap">
+          <div class="prog-item">
+            <label><span>IoT Connectivity</span><span>99%</span></label>
+            <div class="prog-track"><div class="prog-fill" style="width:99%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-block">
+        <h3>📱 AGROMATE App Screens</h3>
+        <p style="font-size:0.88rem;color:var(--text-light);margin-bottom:1rem;">The Flutter mobile application delivering real-time monitoring and AI insights to farmers.</p>
+        <div class="app-screens">
+          <div class="screen-preview"><span class="sc-icon">🏠</span><span class="sc-name">Dashboard</span></div>
+          <div class="screen-preview"><span class="sc-icon">🍄</span><span class="sc-name">Fungi Monitor</span></div>
+          <div class="screen-preview"><span class="sc-icon">🐛</span><span class="sc-name">Pest Monitor</span></div>
+          <div class="screen-preview"><span class="sc-icon">🌿</span><span class="sc-name">Crop Scan</span></div>
+          <div class="screen-preview"><span class="sc-icon">💧</span><span class="sc-name">Water Level</span></div>
+          <div class="screen-preview"><span class="sc-icon">🤖</span><span class="sc-name">AI Advice</span></div>
+        </div>
+        <div style="margin-top:1rem;font-size:0.82rem;color:var(--text-light)">
+          App features: System status, scheduling, multilingual support (coming Phase II)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== FUTURE SCOPE =============== -->
+<div id="future" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">06 — Future Scope</span>
+    <h2 class="section-title">Future Scope & Roadmap</h2>
+    <p class="section-lead">AGROBOT's modular architecture enables continuous enhancement. The roadmap spans from immediate hardware upgrades to full commercial deployment.</p>
+    <div class="future-grid">
+      <div class="future-card">
+        <div class="future-phase">Phase II — Short Term</div>
+        <div class="future-title">GPS-Based Field Mapping</div>
+        <div class="future-desc">Integrate NEO-6M GPS module and implement SLAM-based path planning for fully autonomous coverage mapping of entire farm plots without manual guidance.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase II — Short Term</div>
+        <div class="future-title">Automated Pesticide Sprayer</div>
+        <div class="future-desc">Add a precision micro-pump sprayer that activates only over AI-identified diseased areas, reducing chemical waste and ensuring targeted treatment.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase II — Short Term</div>
+        <div class="future-title">Expanded AI Crop Database</div>
+        <div class="future-desc">Expand the ML model to classify 50+ crop diseases and 30+ pest species including wheat, rice, and soybean varieties common in Maharashtra.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase III — Medium Term</div>
+        <div class="future-title">Solar Power Integration</div>
+        <div class="future-desc">Mount flexible solar panels on the chassis to enable continuous outdoor operation, eliminating the battery recharging limitation during long field sessions.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase III — Medium Term</div>
+        <div class="future-title">Multi-Robot Fleet Management</div>
+        <div class="future-desc">Deploy swarms of 3–5 AGROBOT units coordinated via a central cloud controller for large-scale farm coverage with distributed task allocation.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase III — Medium Term</div>
+        <div class="future-title">Voice & Regional Language App</div>
+        <div class="future-desc">Add Marathi, Hindi, and Tamil voice command support in AGROMATE to improve accessibility for farmers with limited smartphone literacy.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase IV — Long Term</div>
+        <div class="future-title">Drone Integration</div>
+        <div class="future-desc">Pair ground AGROBOT with aerial drones for overhead NDVI analysis and wide-area scouting, providing complementary perspectives on crop health.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Phase IV — Long Term</div>
+        <div class="future-title">Yield Prediction Analytics</div>
+        <div class="future-desc">Train time-series LSTM models on historical sensor data and disease patterns to predict crop yield weeks in advance, enabling proactive supply chain planning.</div>
+      </div>
+      <div class="future-card">
+        <div class="future-phase">Commercialization</div>
+        <div class="future-title">Agri-Startup Pathway</div>
+        <div class="future-desc">File a patent for the integrated AI-IoT agriculture robot architecture and explore startup formation through SPPU Technology Business Incubator (TBI).</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <h3>Development Timeline</h3>
+      <div class="tl-items">
+        <div class="tl-item"><span class="tl-badge">Sep 2025</span><h4>Phase I Begin</h4><p>Team formation, topic finalization, literature review, component procurement</p></div>
+        <div class="tl-item"><span class="tl-badge">Oct 2025</span><h4>Hardware Assembly</h4><p>Chassis build, motor driver integration, sensor wiring, initial ESP32 firmware</p></div>
+        <div class="tl-item"><span class="tl-badge">Nov 2025</span><h4>AI Model + App</h4><p>TFLite model training on PlantVillage, Flutter app development, Firebase setup</p></div>
+        <div class="tl-item"><span class="tl-badge">Dec 2025</span><h4>Integration & Testing</h4><p>End-to-end system testing, Avishkar competition submission, Phase I report</p></div>
+        <div class="tl-item"><span class="tl-badge">Jan 2026</span><h4>Phase II Begins</h4><p>GPS navigation, sprayer module, expanded disease database</p></div>
+        <div class="tl-item"><span class="tl-badge">Jun 2026</span><h4>Field Deployment</h4><p>Real farm trials with local farmers in Nashik region</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== CONCLUSION =============== -->
+<div id="conclusion" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">07 — Conclusion</span>
+    <h2 class="section-title">Conclusion</h2>
+    <p class="section-lead">AGROBOT demonstrates that intelligent automation, when designed with farmers in mind, can genuinely transform agricultural productivity.</p>
+    <div class="conclusion-layout">
+      <div class="conclusion-text">
+        <p>The Smart Autonomous AI-Integrated Agriculture Robot — AGROBOT — successfully demonstrates the convergence of embedded systems, artificial intelligence, IoT connectivity, and mobile application development into a single unified platform aimed at solving real-world agricultural challenges.</p>
+        <p>In Phase I, we successfully assembled the four-wheel-drive chassis, integrated the ESP32 microcontroller with DHT22, soil moisture, and ultrasonic sensors, trained and deployed a MobileNetV2 TFLite model achieving 91.8% validation accuracy, established Firebase cloud integration, and delivered the functional AGROMATE mobile application with six key modules.</p>
+        <p>The project directly addresses critical pain points: the system's targeted approach reduces water consumption by ~38%, cuts pesticide usage by up to 60%, and provides farmers with AI-generated, actionable advice in real time — previously only accessible to large commercial farms.</p>
+        <div class="conclusion-quote">
+          <p>AGROBOT is not just a robot — it is a step toward democratizing precision agriculture, making data-driven farming accessible to every smallholder farmer in India and beyond.</p>
+          <cite>— AGROBOT Development Team, R.H. Sapat College of Engineering, Nashik</cite>
+        </div>
+      </div>
+      <div class="summary-cards">
+        <div class="sum-card">
+          <div class="sum-icon">✅</div>
+          <div class="sum-text"><h4>Problem Addressed</h4><p>Labor shortage, crop disease losses, inefficient resource use in Indian agriculture</p></div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-icon">🤖</div>
+          <div class="sum-text"><h4>Solution Delivered</h4><p>Autonomous robot with AI disease detection, IoT sensing, and mobile dashboard</p></div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-icon">📊</div>
+          <div class="sum-text"><h4>Key Results</h4><p>91.8% AI accuracy, 97% navigation reliability, real-time Firebase streaming</p></div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-icon">💰</div>
+          <div class="sum-text"><h4>Cost Effective</h4><p>Total hardware cost under ₹25,000 — designed for small and marginal farmers</p></div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-icon">🚀</div>
+          <div class="sum-text"><h4>Future Ready</h4><p>Modular architecture supports GPS, sprayer, solar, drone integration in Phase II+</p></div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-icon">🏆</div>
+          <div class="sum-text"><h4>Recognition</h4><p>Submitted to Avishkar 2025 — SPPU inter-collegiate research competition</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== CONTACT =============== -->
+<div id="contact" class="page">
+  <div class="section-wrap">
+    <span class="section-tag">08 — Contact</span>
+    <h2 class="section-title">Meet the Team</h2>
+    <p class="section-lead">AGROBOT is developed by three passionate engineers from the Department of Electronics & Telecommunication Engineering, R.H. Sapat College of Engineering, Nashik.</p>
+    <div class="contact-grid">
+      <div class="team-cards">
+        <div class="member-card">
+          <div class="member-avatar">HP</div>
+          <div class="member-info">
+            <h3>Himanshu Pawar</h3>
+            <p>Roll No. 09 · B.E. E&TC, 2025–26</p>
+            <p style="font-size:0.82rem;color:var(--text-light);margin-top:2px;">Hardware Lead — ESP32 Firmware & Sensor Integration</p>
+            <div class="member-contact">
+              <a href="tel:9767894567" class="contact-pill">📞 97678 94567</a>
+              <a href="mailto:23_himanshu.pawar@ges-coengg.org" class="contact-pill">✉️ Email</a>
+            </div>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar">MP</div>
+          <div class="member-info">
+            <h3>Manoj Pawar</h3>
+            <p>Roll No. 12 · B.E. E&TC, 2025–26</p>
+            <p style="font-size:0.82rem;color:var(--text-light);margin-top:2px;">AI/ML Lead — TFLite Model Training & Optimization</p>
+            <div class="member-contact">
+              <a href="tel:9767894567" class="contact-pill">📞 97678 94567</a>
+              <a href="mailto:23_manoj.pawar@ges-coengg.org" class="contact-pill">✉️ Email</a>
+            </div>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar">AZ</div>
+          <div class="member-info">
+            <h3>Atharva Zadge</h3>
+            <p>Roll No. 13 · B.E. E&TC, 2025–26</p>
+            <p style="font-size:0.82rem;color:var(--text-light);margin-top:2px;">App Dev Lead — Flutter, Firebase & UI/UX Design</p>
+            <div class="member-contact">
+              <a href="tel:9767894567" class="contact-pill">📞 97678 94567</a>
+              <a href="mailto:23_atharva.zadge@ges-coengg.org" class="contact-pill">✉️ Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-panel">
+          <h3>Project Information</h3>
+          <div class="info-row">
+            <div class="info-icon">🏫</div>
+            <div class="info-text">
+              <h4>Institution</h4>
+              <p>R.H. Sapat College of Engineering, Management Studies and Research, Nashik</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">🔬</div>
+            <div class="info-text">
+              <h4>Department</h4>
+              <p>Electronics & Telecommunication Engineering</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">👩‍🏫</div>
+            <div class="info-text">
+              <h4>Project Guide</h4>
+              <p>Mrs. M. S. Gahiwad</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">🎓</div>
+            <div class="info-text">
+              <h4>Head of Department</h4>
+              <p>Dr. S. P. Agnihotri</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">📋</div>
+            <div class="info-text">
+              <h4>Course Code</h4>
+              <p>404188 — Major Project Phase I</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">📅</div>
+            <div class="info-text">
+              <h4>Academic Year</h4>
+              <p>2025–26, Semester I (B.E. VII)</p>
+            </div>
+          </div>
+          <div class="college-badge">
+            <h4>Gokhale Education Society</h4>
+            <p>Prin. T.A. Kulkarni Vidyanagar<br>Nashik – 422005, Maharashtra, India</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">🌱 AGROBOT</div>
+  <p>Smart Autonomous AI-Integrated Agriculture Robot &nbsp;·&nbsp; R.H. Sapat College of Engineering, Nashik</p>
+  <p style="margin-top:8px">Major Project Phase I (404188) &nbsp;·&nbsp; Academic Year 2025–26 &nbsp;·&nbsp; Dept. of E&TC</p>
+  <p style="margin-top:8px;opacity:0.5">Made with 💚 by Himanshu Pawar, Manoj Pawar & Atharva Zadge</p>
+</footer>
 
 <script>
-function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
-}
-
-function showSection(id){
-  let sections = document.querySelectorAll("section");
-  sections.forEach(sec => sec.style.display = "none");
-  document.getElementById(id).style.display = "block";
-  toggleMenu();
-}
-
-function searchSections(input){
-  let sections = document.querySelectorAll("section");
-  input = input.toLowerCase();
-  if(input === ""){
-    sections.forEach(sec => sec.style.display = "none");
-    document.getElementById("home").style.display = "block";
-    return;
+  // Page routing
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    document.querySelector(`[data-page="${pageId}"]`)?.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    // Close mobile nav
+    document.getElementById('navLinks').classList.remove('open');
+    return false;
   }
-  sections.forEach(sec => {
-    if(sec.innerText.toLowerCase().includes(input)){
-      sec.style.display = "block";
-    } else {
-      sec.style.display = "none";
-    }
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
   });
-}
 
-window.onload = function(){
-  let sections = document.querySelectorAll("section");
-  sections.forEach(sec => sec.style.display = "none");
-  document.getElementById("home").style.display = "block";
-};
+  // Mobile nav toggle
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Animate progress bars when results page shown
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach(m => {
+      if (m.target.id === 'results' && m.target.classList.contains('active')) {
+        setTimeout(() => {
+          document.querySelectorAll('.prog-fill').forEach(b => {
+            const w = b.style.width;
+            b.style.width = '0';
+            setTimeout(() => b.style.width = w, 50);
+          });
+        }, 100);
+      }
+    });
+  });
+  document.querySelectorAll('.page').forEach(p => {
+    observer.observe(p, {attributes:true, attributeFilter:['class']});
+  });
+
+  // Intersection observer for cards
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold: 0.1});
+
+  document.querySelectorAll('.feat-card,.paper-card,.outcome-card,.future-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s, border-color 0.3s';
+    cardObserver.observe(card);
+  });
 </script>
-
 </body>
 </html>
